@@ -36,7 +36,7 @@
           <div class="container p-0 pt-sm-5 m-0">
             <div class="">
               <form class="needs-validation" novalidate>
-                <h2 class="pt-sm-5">How we can help you?</h2>
+                <h3 class="pt-sm-5 fw-bold">How we can help you?</h3>
                 <div class="row pt-3">
                   <div class="col-sm">
                     Your Name
@@ -98,26 +98,31 @@
               event.stopPropagation()
             } else {
               event.preventDefault()
-              var name = document.getElementsByName("name")[0].value
-              var email = document.getElementsByName("email")[0].value
-              var messages = document.getElementsByName("messages")[0].value
-              console.log("VALIDATE", name, email, messages)
+              var param_name = document.getElementsByName("name")[0].value
+              var param_email = document.getElementsByName("email")[0].value
+              var param_messages = document.getElementsByName("messages")[0].value
 
               const xhttp = new XMLHttpRequest();
               xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
+                if (this.readyState === 4 && this.status === 200) {
+                  console.log('if',this.readyState)
                   // Success Response
                   document.getElementById("demo").innerHTML = this.responseText;
                   myModal.show()
-                } else {
+                } else if (this.readyState !== 4) {
+                  console.log('else if',this.readyState)
                   // Error Response
-                  document.getElementById("demo").innerHTML = "Something Wrong";
+                  document.getElementById("demo").innerHTML = "Sending Email....";
+                  myModal.show()
+                } else {
+                  console.log('else',this.readyState)
+                  document.getElementById("demo").innerHTML = "Failed to send email. Something went wrong.";
                   myModal.show()
                 }
               };
-              xhttp.open("POST", "./res.json");
+              xhttp.open("POST", "https://dev-dash.swissmicrobiome.ch/email_sender/");
               xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-              xhttp.send("fname=Henry&lname=Ford");
+              xhttp.send(`param_name=${param_name}&param_email=${param_email}&param_messages=${param_messages}`);
             }
             form.classList.add('was-validated')
           }, false)
