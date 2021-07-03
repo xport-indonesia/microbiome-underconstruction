@@ -90,9 +90,9 @@
       document.getElementById("email").value = '';
       document.getElementById("messages").value = '';
       document.getElementById("mainForm").classList.remove("was-validated");
-      nameValidation();
-      emailValidation();
-      messagesValidation();
+      document.getElementById("name").classList.remove('is-valid');
+      document.getElementById("email").classList.remove('is-valid');
+      document.getElementById("messages").classList.remove('is-valid');
     }
   </script>
   <script>
